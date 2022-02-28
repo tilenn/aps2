@@ -67,14 +67,23 @@ public class Izziv {
     }
 
     public static void main(String[] args) {
-        // ta vrstica je tukaj, da potem pridejo bolj pravilne stevilke pri izpisu
-        timeLinear(50000);
-
         System.out.println("    n    |   linearno   |   dvojisko  ");
         System.out.println("---------+--------------+-------------");
+
+        // ta vrstice so tukaj, da potem pridejo bolj pravilne stevilke pri izpisu bolj
+        // pravilne
+        timeLinear(50000);
+        timeBinary(50000);
+
         for (int i = 1000; i <= 100000; i += 1000) {
             long timeLin = timeLinear(i);
             long timeBin = timeBinary(i);
+
+            // StdDraw.setPenColor(StdDraw.RED);
+            // StdDraw.point(i + 1000, timeLin + 5000);
+            // StdDraw.setPenColor(StdDraw.GREEN);
+            // StdDraw.point(i + 1000, timeBin + 5000);
+
             System.out.printf("%8d | %12d | %10d \n", i, timeLin, timeBin);
         }
     }
