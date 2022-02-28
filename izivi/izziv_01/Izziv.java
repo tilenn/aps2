@@ -67,35 +67,14 @@ public class Izziv {
     }
 
     public static void main(String[] args) {
-
-        // za risat
-        StdDraw.setXscale(0, 101000);
-        StdDraw.setYscale(0, 50000);
-        StdDraw.setPenRadius(0.005);
-        StdDraw.setPenColor(StdDraw.BLACK);
-
-        // x-axis
-        StdDraw.line(0, 5000, 1001000, 5000);
-        StdDraw.text(2500, 4000, "0");
-        StdDraw.text(95000, 4000, "100000");
-        StdDraw.text(16000, 3000, "x-axis (array length)");
-
-        // y-axis
-        StdDraw.line(1000, 0, 1000, 50000);
-        StdDraw.text(6000, 47000, "50000");
-        StdDraw.text(10000, 49000, "y-axis (time)");
+        // ta vrstica je tukaj, da potem pridejo bolj pravilne stevilke pri izpisu
+        timeLinear(50000);
 
         System.out.println("    n    |   linearno   |   dvojisko  ");
         System.out.println("---------+--------------+-------------");
         for (int i = 1000; i <= 100000; i += 1000) {
             long timeLin = timeLinear(i);
             long timeBin = timeBinary(i);
-
-            StdDraw.setPenColor(StdDraw.RED);
-            StdDraw.point(i + 1000, timeLin + 5000);
-            StdDraw.setPenColor(StdDraw.GREEN);
-            StdDraw.point(i + 1000, timeBin + 5000);
-
             System.out.printf("%8d | %12d | %10d \n", i, timeLin, timeBin);
         }
     }
