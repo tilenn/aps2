@@ -5,21 +5,13 @@ public class prog {
     public static void zgradiKopico(int[] a) {
         for (int i = a.length - 1; i >= 0; i--) {
             pogrezni(a, i, a.length);
-            System.out.println(i + ":" + Arrays.toString(a));
         }
     }
 
     public static void pogrezni(int[] a, int i, int dolzKopice) {
-        // TODO
-        // child nodes are at index (i * 2) + 1 and (i * 2) + 2
-
-        // test
-
         if (dolzKopice == 1) {
             return;
         }
-
-        // test
 
         int lIndex = (i * 2) + 1;
         int rIndex = (i * 2) + 2;
@@ -56,30 +48,46 @@ public class prog {
         }
     }
 
+    public static void printKopica(int[] a, int len) {
+        if (len == 1) {
+            System.out.println(a[0]);
+            return;
+        }
+        int x = 1;
+        int c = 0;
+        for (int i = 0; i < len; i++) {
+            if (c < x) {
+                System.out.print((i == 0 ? "" : " ") + a[i]);
+            }
+            c++;
+            if (c == x) {
+                System.out.print(" |");
+                c = 0;
+                x = x * 2;
+            }
+        }
+        System.out.println();
+    }
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
 
-        int[] arr = { 5, 2, 7, 6, 8, 1, 3, 9, 4 };
+        int[] arr = new int[n];
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = sc.nextInt();
+        }
+
         zgradiKopico(arr);
-        System.out.println(Arrays.toString(arr));
-        System.exit(0);
-        // int[] arr = { 9, 8, 7, 6, 5, 1, 3, 2, 4 };
-        // int[] arr = { 6, 9, 4 };
-        for (int i = 0; i < 2; i++) {
-            System.out.println(Arrays.toString(arr));
-
+        printKopica(arr, arr.length);
+        for (int i = 0; i < arr.length - 1; i++) {
             int tmp = arr[arr.length - i - 1];
             arr[arr.length - i - 1] = arr[0];
             arr[0] = tmp;
 
             pogrezni(arr, 0, arr.length - i - 1);
+            printKopica(arr, arr.length - i - 1);
         }
-        // int n = sc.nextInt();
-        // int[] nums = new int[n];
-
-        // for (int i = 0; i < n; i++) {
-        // nums[i] = sc.nextInt();
-        // }
         sc.close();
     }
 }
