@@ -1,4 +1,3 @@
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class prog {
@@ -20,12 +19,12 @@ public class prog {
         boolean r = rIndex < dolzKopice ? true : false;
 
         if (l && r) {
-            if (a[lIndex] > a[rIndex] && a[lIndex] > a[i]) {
+            if (a[lIndex] >= a[rIndex] && a[lIndex] > a[i]) {
                 int tmp = a[lIndex];
                 a[lIndex] = a[i];
                 a[i] = tmp;
                 pogrezni(a, lIndex, dolzKopice);
-            } else if (a[lIndex] < a[rIndex] && a[rIndex] > a[i]) {
+            } else if (a[lIndex] <= a[rIndex] && a[rIndex] > a[i]) {
                 int tmp = a[rIndex];
                 a[rIndex] = a[i];
                 a[i] = tmp;
@@ -60,7 +59,7 @@ public class prog {
                 System.out.print((i == 0 ? "" : " ") + a[i]);
             }
             c++;
-            if (c == x) {
+            if (c == x && i + 1 != len) {
                 System.out.print(" |");
                 c = 0;
                 x = x * 2;
