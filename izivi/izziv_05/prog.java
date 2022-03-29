@@ -1,7 +1,5 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Scanner;
-import java.util.stream.Stream;
 
 public class prog {
     public static void printZaporedje(int[] stevila, int l, int r, int val) {
@@ -75,4 +73,3 @@ public class prog {
         sc.close();
     }
 }
-// idk
