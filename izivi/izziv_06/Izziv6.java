@@ -93,23 +93,58 @@ class Matrix {
 
     }
 
+    public void fillMatrix(Scanner in) {
+        int n = this.n;
+
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                this.setV(i, j, in.nextInt());
+            }
+        }
+    }
+
     // simple multiplication
     public Matrix mult(Matrix b) {
-        // TODO
-
+        Matrix res = new Matrix(this.n);
+        for (int i = 0; i < this.n; i++) {
+            for (int j = 0; j < this.n; j++) {
+                for (int k = 0; k < this.n; k++) {
+                    res.setV(i, j, res.v(i, j) + (this.v(i, k) * b.v(k, j)));
+                }
+            }
+        }
+        return res;
     }
 
     // Strassen multiplication
     public Matrix multStrassen(Matrix b, int cutoff) {
         // TODO
+        return null;
     }
 
+    public void printMatrix() {
+        for (int i = 0; i < this.n; i++) {
+            for (int j = 0; j < this.n; j++) {
+                System.out.print(this.v(i, j) + " ");
+            }
+            System.out.println();
+        }
+    }
 }
 
 public class Izziv6 {
-
     public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
 
+        int n = sc.nextInt();
+        int stopVal = sc.nextInt();
+
+        Matrix a = new Matrix(n);
+        a.fillMatrix(sc);
+        Matrix b = new Matrix(n);
+        b.fillMatrix(sc);
+
+        sc.close();
     }
 
 }
