@@ -85,12 +85,14 @@ class Complex {
 }
 
 public class Prog {
+    // TODO: ne double, temvec COMPLEX
     // poly length bo vedno potenca stevila 2
     public static double[] dft(double[] poly) {
         if (poly.length == 1) {
             return poly;
         }
 
+        // razdelimo na sode in lihe
         double[] evenTerms = new double[poly.length / 2];
         double[] oddTerms = new double[poly.length / 2];
         int index = 0;
@@ -102,10 +104,17 @@ public class Prog {
                 index++;
             }
         }
-        // razdelimo na sode in lihe
+
         System.out.println("Initial poly: " + Arrays.toString(poly));
         System.out.println("Even terms: " + Arrays.toString(evenTerms));
         System.out.println("Odd terms: " + Arrays.toString(oddTerms));
+
+        // klicemo rekurzivno
+        double[] first = dft(evenTerms);
+        double[] second = dft(oddTerms);
+
+        // izracunamo vrednostno predstavitev
+
         return null;
     }
 
