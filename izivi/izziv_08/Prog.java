@@ -85,16 +85,27 @@ class Complex {
 }
 
 public class Prog {
+    public static void printComplexArray(Complex[] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i].toString());
+            if (i != arr.length - 1) {
+                System.out.print(" ");
+            }
+        }
+        System.out.println();
+    }
+
     // TODO: ne double, temvec COMPLEX
     // poly length bo vedno potenca stevila 2
-    public static double[] dft(double[] poly) {
+    // v == -1 inverzni
+    public static Complex[] dft(Complex[] poly, int v) {
         if (poly.length == 1) {
             return poly;
         }
 
         // razdelimo na sode in lihe
-        double[] evenTerms = new double[poly.length / 2];
-        double[] oddTerms = new double[poly.length / 2];
+        Complex[] evenTerms = new Complex[poly.length / 2];
+        Complex[] oddTerms = new Complex[poly.length / 2];
         int index = 0;
         for (int i = 0; i < poly.length; i++) {
             if (i % 2 == 0) {
@@ -105,17 +116,33 @@ public class Prog {
             }
         }
 
-        System.out.println("Initial poly: " + Arrays.toString(poly));
-        System.out.println("Even terms: " + Arrays.toString(evenTerms));
-        System.out.println("Odd terms: " + Arrays.toString(oddTerms));
+        // System.out.println("Initial poly: " + Arrays.toString(poly));
+        // System.out.println("Even terms: " + Arrays.toString(evenTerms));
+        // System.out.println("Odd terms: " + Arrays.toString(oddTerms));
 
         // klicemo rekurzivno
-        double[] first = dft(evenTerms);
-        double[] second = dft(oddTerms);
+        Complex[] first = dft(evenTerms, v);
+        Complex[] second = dft(oddTerms, v);
 
-        // izracunamo vrednostno predstavitev
+        // System.out.println("First: " + Arrays.toString(first));
+        // System.out.println("Second: " + Arrays.toString(second));
 
-        return null;
+        Complex w = new Complex(0, 2 * Math.PI / poly.length);
+        w = w.exp();
+        if (v == -1) {
+            w = w.conj();
+        }
+        Complex wk = new Complex(1, 0);
+
+        Complex[] vrednostna = new Complex[poly.length];
+        for (int i = 0; i < poly.length / 2; i++) {
+            vrednostna[i] = first[i].plus(wk.times(second[i]));
+            vrednostna[i + poly.length / 2] = first[i].minus(wk.times(second[i]));
+            wk = wk.times(w);
+        }
+        // System.out.println(Arrays.toString(vrednostna));
+        printComplexArray(vrednostna);
+        return vrednostna;
     }
 
     public static void main(String[] args) {
@@ -128,24 +155,48 @@ public class Prog {
         if ((Math.log(lenOfPoly) / Math.log(2)) % 1 != 0.0) {
             lenOfPoly = (int) Math.pow(2, Math.ceil(Math.log(lenOfPoly) / Math.log(2)));
         }
+        lenOfPoly = lenOfPoly * 2;
 
-        double[] firstPoly = new double[lenOfPoly];
-        double[] secondPoly = new double[lenOfPoly];
+        Complex[] firstPoly = new Complex[lenOfPoly];
+        Complex[] secondPoly = new Complex[lenOfPoly];
 
-        for (int i = 0; i < numOfArguments; i++) {
-            firstPoly[i] = sc.nextDouble();
+        for (int i = 0; i < lenOfPoly; i++) {
+            if (i < numOfArguments) {
+                firstPoly[i] = new Complex(sc.nextDouble(), 0);
+            } else {
+                firstPoly[i] = new Complex(0, 0);
+            }
         }
 
-        for (int i = 0; i < numOfArguments; i++) {
-            secondPoly[i] = sc.nextDouble();
+        for (int i = 0; i < lenOfPoly; i++) {
+            if (i < numOfArguments) {
+                secondPoly[i] = new Complex(sc.nextDouble(), 0);
+            } else {
+                secondPoly[i] = new Complex(0, 0);
+            }
         }
 
-        System.out.println("Prvi polinom: " + Arrays.toString(firstPoly));
-        System.out.println("Drugi polinom: " + Arrays.toString(secondPoly));
-        System.out.println("Len of poly: " + lenOfPoly);
+        // System.out.println("Len of poly: " + lenOfPoly);
 
-        double[] firstPoly_val = dft(firstPoly);
-        // double[] secondPoly_val = dft(secondPoly);
+        Complex[] firstPoly_val = dft(firstPoly, 1);
+        Complex[] secondPoly_val = dft(secondPoly, 1);
+
+        // System.out.println("p: " + Arrays.toString(firstPoly_val));
+        // System.out.println("d: " + Arrays.toString(secondPoly_val));
+
+        // firstPoly = dft(firstPoly_val, -1);
+        // secondPoly = dft(secondPoly_val, -1);
+        Complex[] res = new Complex[firstPoly.length];
+        for (int i = 0; i < res.length; i++) {
+            res[i] = firstPoly_val[i].times(secondPoly_val[i]);
+        }
+
+        res = dft(res, -1);
+        for (int i = 0; i < res.length; i++) {
+            res[i] = res[i].divides(new Complex(lenOfPoly, 0));
+        }
+        // System.out.println(Arrays.toString(res));
+        printComplexArray(res);
 
         sc.close();
     }
